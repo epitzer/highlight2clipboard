@@ -239,6 +239,8 @@ are fully fontified."
                  #'highlight2clipboard--add-html-to-clipboard-osx)
                 ((memq system-type '(windows-nt cygwin))
                  #'highlight2clipboard--add-html-to-clipboard-w32)
+                ((eq system-type 'gnu/linux)
+                 #'highlight2clipboard-add-html-to-clipboard-linux)
                 (t (error "Unsupported system: %s" system-type))))))
 
 
@@ -262,6 +264,15 @@ are fully fontified."
    (concat highlight2clipboard--directory
            "bin/highlight2clipboard-w32.rb")
    file-name))
+
+(defun highlight2clipboard-add-html-to-clipboard-linux (file-name)
+  (call-process
+   "xclip"
+   nil
+   0
+   nil
+   file-name))
+
 
 (provide 'highlight2clipboard)
 
